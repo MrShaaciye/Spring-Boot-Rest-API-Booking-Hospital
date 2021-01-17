@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   <meta name="description" content="">
+   <meta name="author" content="">
+   <link rel="icon" href="../../../../favicon.ico">
+   <title>Hospital Booking System</title>
+
+   <!--Template based on URL below-->
+   <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/starter-template/">
+
+   <!-- Bootstrap core CSS -->
+   <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
+
+   <!-- Place your stylesheet here-->
+   <link href="/css/stylesheet.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+   <div class="container my-2">
+      <h2>Hospital Booking System</h2>
+      <h4>Update Booking</h4>
+      <hr>
+      <form>
+         <input type="text" class="form form-control col-4" id="name" placeholder="Enter patient name..."><br>
+         <input type="text" class="form form-control col-4" id="phone" placeholder="Enter patient phone..."><br>
+         <input type="text" class="form form-control col-4" id="reason" placeholder="Enter patient reason..."><br>
+         <select id="hospital" class="form form-control col-4">
+            <option value="">Select Hospital...</option>
+            <option value="Kalkaal">Kalkaal</option>
+            <option value="Digfeer">Digfeer</option>
+            <option value="Kaamil">Kaamil</option>
+            <option value="Adan Adde">Adan Adde</option>
+         </select><br>
+         <select id="doctor" class="form form-control col-4">
+            <option value="">Select Doctor...</option>
+            <option value="Cudurrada Guud">Cudurrada Guud</option>
+            <option value="Uur ku jirta">Uur ku jirta</option>
+            <option value="Cunaha iyo Sarnka">Cunaha iyo Sanka</option>
+            <option value="Maskaxda">Maskaxda</option>
+         </select><br>
+         <input type="number" step="0.01" class="form form-control col-4" id="fee" placeholder="Enter patient fee..."><br>
+         <input type="date" class="form form-control col-4" id="date" placeholder="Enter visit date..."><br>
+         <select id="status" class="form form-control col-4">
+            <option value="1">Reactivate yourPermission</option>
+            <option value="0">Deactivate yourPermission</option>
+         </select><br>
+         <button type="button" class="btn btn-info col-3" id="update">Update</button>
+         <a href="index.html">Retun to List</a>
+      </form>
+   </div>
+
+   <!-- Bootstrap core JavaScript
+    ================================================== -->
+   <!-- Placed at the end of the document so the pages load faster -->
+   <script type="text/javascript" src="jquery/jquery.slim.min.js"></script>
+   <script type="text/javascript" src="js/bootstrap.min.js"></script>
+   <script type="text/javascript">
+      $(document).ready(() => {
+         var id = GetURLParameter("id");
+         fetch("http://localhost:8080/bookinghospital/findById/" + id).then(response => {
+            response.json().then(data => {
+               $("#name").val(data.name);
+               $("#phone").val(data.phone);
+               $("#reason").val(data.reason);
+               $("#hospital").val(data.hospital);
+               $("#doctor").val(data.doctor);
+               $("#fee").val(data.fee);
+               $("#date").val(data.date);
+               $("#date").val(data.status);
+            });
+         });
+         $("#update").click(() => {
+            var name = $("#name").val();
+            var phone = $("#phone").val();
+            var reason = $("#reason").val();
+            var hospital = $("#hospital").val();
+            var doctor = $("#doctor").val();
+            var fee = parseFloat($("#fee").val());
+            var date = $("#date").val();
+            var status = parseInt($("#status").val());
+            var data = {
+               id: id,
+               name: name,
+               phone: phone,
+               reason: reason,
+               hospital: hospital,
+               doctor: doctor,
+               fee: fee,
+               date: date,
+               status: status,
+            }
+            fetch('http://localhost:8080/bookinghospital/update/' + id, {
+               method: 'PUT',
+               body: JSON.stringify(data),
+               headers: {
+                  'Content-type': 'application/json; charset=UTF-8',
+               },
+            }).then(response => {
+               response.json().then(object => {
+                  window.location.href = "index.html";
+               });
+            });
+         });
+
+         function GetURLParameter(sParam) {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+               var sParameterName = sURLVariables[i].split('=');
+               if (sParameterName[0] == sParam) {
+                  return sParameterName[1];
+               }
+            }
+         }
+      });
+
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   <meta name="description" content="">
+   <meta name="author" content="">
+   <link rel="icon" href="../../../../favicon.ico">
+   <title>Hospital Booking System</title>
+
+   <!--Template based on URL below-->
+   <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/starter-template/">
+
+   <!-- Bootstrap core CSS -->
+   <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
+
+   <!-- Place your stylesheet here-->
+   <link href="/css/stylesheet.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+   <div class="container my-2">
+      <h2>Hospital Booking System</h2>
+      <h4>Booking List</h4>
+      <a href="insert.html" class="btn btn-primary btn-sm mb-2">Insert New</a>
+      <hr>
+      <table class="table table-bordered table-striped table-hover table-responsive-md-2">
+         <thead>
+            <tr>
+               <th>ID No.</th>
+               <th>Name</th>
+               <th>Phone</th>
+               <th>Reason</th>
+               <th>Hospital</th>
+               <th>Doctor</th>
+               <th>Fee</th>
+               <th>Date</th>
+               <th>Status</th>
+               <th>Action</th>
+            </tr>
+         </thead>
+         <tbody id="bookingList">
+         </tbody>
+         <tfoot>
+            <tr>
+               <th>ID No.</th>
+               <th>Name</th>
+               <th>Phone</th>
+               <th>Reason</th>
+               <th>Hospital</th>
+               <th>Doctor</th>
+               <th>Fee</th>
+               <th>Date</th>
+               <th>Status</th>
+               <th>Action</th>
+            </tr>
+         </tfoot>
+      </table>
+   </div>
+
+   <!-- Bootstrap core JavaScript
+    ================================================== -->
+   <!-- Placed at the end of the document so the pages load faster -->
+   <script type="text/javascript" src="jquery/jquery.slim.min.js"></script>
+   <script type="text/javascript" src="js/bootstrap.min.js"></script>
+   <script type="text/javascript">
+      $(document).ready(() => {
+         fetch('http://localhost:8080/bookinghospital/findall').then(response => {
+            response.json().then(data => {
+               console.log(data)
+               data.forEach(object => {
+                  $("#bookingList").append(`
+                     <tr>
+                        <td>${object.id}</td>
+                        <td>${object.name}</td>
+                        <td>${object.phone}</td>
+                        <td>${object.reason}</td>
+                        <td>${object.hospital}</td>
+                        <td>${object.doctor}</td>
+                        <td>${object.fee}</td>
+                        <td>${object.date}</td>
+                        <td>${object.status}</td>
+                        <td><a class="btn btn-info btn-sm mb-2" href="update.html?id=${object.id}"><i class="fas fa-edit"></i>Update</a></td>
+                     </tr>
+                  `);
+               });
+            });
+         });
+      });
+
+   </script>
+</body>
+
+</html>
